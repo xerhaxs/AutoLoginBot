@@ -2,21 +2,14 @@
 from selenium import webdriver
 from selenium.webdriver import Keys
 from selenium.webdriver.common.by import By
-from selenium.webdriver.firefox.options import Options as FirefoxOptions
 import time
 import requests
 
 def autologin():
-    email = "USERNAME"
-    password = "PASSWORD"
+    email = "YOUREMAILHERE"
+    password = "YOURPASSWORDHERE"
 
-    options = FirefoxOptions()
-
-    options.add_argument("--headless")
-
-    browser = webdriver.Firefox(options=options)
-
-    # browser = webdriver.Firefox()
+    browser = webdriver.Firefox()
 
     browser.get("http://detectportal.firefox.com/canonical.html")
 
@@ -28,13 +21,18 @@ def autologin():
 
     browser.close()
 
-    time.sleep(5)
+    connect()
 
-while (True):
+    time.sleep(1000)
+
+def connect():
     try:
         requests.head("https://example.org/", timeout=1)
         print('Network is active - nothing to do.')
-        time.sleep(100)
     except requests.ConnectionError:
         print('Network is down. Try to reconnect.')
         autologin()
+    time.sleep(10)
+
+while True:
+    connect()
